@@ -1,8 +1,19 @@
+import { IsString, IsNotEmpty, IsOptional, IsInt } from 'class-validator';  
+
 export class CreateRoomDto {
-    name: string;
-    type: string;
-    price: number;
-    view: string;
-    amenities: string[];
-    hotelId: number;  
-  }
+  @IsString()
+  @IsNotEmpty()
+  readonly name: string;  
+
+  @IsInt()
+  @IsNotEmpty()
+  readonly floor: number;  
+
+  @IsInt()
+  @IsNotEmpty()
+  readonly capacity: number;  
+
+  @IsOptional()
+  @IsString()
+  readonly description?: string;  
+}

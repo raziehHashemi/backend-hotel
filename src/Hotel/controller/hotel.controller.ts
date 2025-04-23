@@ -1,8 +1,8 @@
 import { Controller, Post, Body, Get } from '@nestjs/common';
-import { HotelService } from './hotel.service';
-import { CreateHotelDto } from './dto/create-hotel.dto';
-import { CreateRoomDto } from './dto/create-room.dto';
-import { CreateReservationDto } from './dto/create-reservation.dto';
+import { HotelService } from '../service/hotel.service';
+import { CreateHotelDto } from '../dto/create-hotel.dto';
+import { CreateRoomDto } from '../dto/create-room.dto';
+import { CreateReservationDto } from '../dto/create-reservation.dto';
 
 @Controller('hotels')
 export class HotelController {
@@ -25,6 +25,6 @@ export class HotelController {
 
   @Get()
   async getHotels() {
-    return this.hotelService.getHotels(); // فراخوانی متد getHotels
+    return this.hotelService.getHotels(); 
   }
 }

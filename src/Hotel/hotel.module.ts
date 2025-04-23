@@ -1,13 +1,11 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { HotelController } from './hotel.controller';
-import { HotelService } from './hotel.service';
-import { Hotel } from './hotel.entity';
-import { Room } from './room.entity';
-import { Reservation } from './reservation.entity';
+import { HotelService } from './service/hotel.service';
+import { HotelController } from './controller/hotel.controller';
+import { HotelRepository } from './repository/hotel.repository';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Hotel, Room, Reservation])],
+  imports: [TypeOrmModule.forFeature([HotelRepository])], 
   controllers: [HotelController],
   providers: [HotelService],
 })
