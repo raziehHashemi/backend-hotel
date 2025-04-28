@@ -1,7 +1,8 @@
-import { Entity,PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm';
 import { Expose } from 'class-transformer';
-import { User } from '../../../User/model/entity/user.entity'; 
-import { Room } from './room.entity';  
+import { User } from '../../../User/model/entity/user.entity';
+import { Room } from './room.entity';
+
 @Entity()
 export class Reservation {
   @PrimaryGeneratedColumn('uuid')
@@ -17,15 +18,14 @@ export class Reservation {
   @Expose()
   createdAt: Date;
 
-  @UpdateDateColumn({
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP',
-    onUpdate: 'CURRENT_TIMESTAMP',
-  })
+  @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
   @Expose()
   updatedAt: Date;
 
   @DeleteDateColumn()
   @Expose()
   deletedAt: Date;
+
+  @Column({ type: 'timestamp', nullable: true })
+  expirationDate: Date;  
 }

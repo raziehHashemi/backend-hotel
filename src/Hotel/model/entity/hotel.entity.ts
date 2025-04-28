@@ -1,5 +1,6 @@
-import { Entity,PrimaryGeneratedColumn, Column, OneToMany, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm';
 import { Expose } from 'class-transformer';
+import { ApiProperty } from '@nestjs/swagger';
 import { Room } from './room.entity';  
 
 @Entity()
@@ -10,8 +11,12 @@ export class Hotel {
   @Column({ type: 'varchar', length: 255 })
   name: string;
 
-  @Column({ type: 'varchar', length: 255 })
-  location: string;
+  @Column({ type: 'json', nullable: false })
+  @ApiProperty({
+    description: 'The geographical location of the hotel',
+    example: { latitude: 40.7128, longitude: 74.0060 },
+  })
+  location: { latitude: number; longitude: number };
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   @Expose()

@@ -1,15 +1,13 @@
-import { IsString, IsNotEmpty, IsOptional } from 'class-validator';  
+import { IsString, IsNotEmpty, IsObject, IsLatitude, IsLongitude } from 'class-validator';
 
 export class CreateHotelDto {
   @IsString()
   @IsNotEmpty()
-  readonly name: string; 
+  name: string; 
 
-  @IsString()
+  @IsObject()
   @IsNotEmpty()
-  readonly location: string;  
-
-  @IsOptional()
-  @IsString()
-  readonly description?: string;  
+  @IsLatitude()
+  @IsLongitude()
+  location: { latitude: number; longitude: number };  
 }

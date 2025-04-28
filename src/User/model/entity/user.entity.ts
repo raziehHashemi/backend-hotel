@@ -1,4 +1,4 @@
-import { Entity,PrimaryGeneratedColumn, Column, OneToMany, ManyToMany, JoinTable, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToMany, JoinTable, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm';
 import { Expose, Exclude } from 'class-transformer';
 import { Role } from './role.entity';  
 import { Reservation } from '../../../Hotel/model/entity/reservation.entity'; 
@@ -11,11 +11,11 @@ export class User {
   @Column({ type: 'varchar', length: 255, unique: true })
   username: string;
 
-  @Column({ type: 'varchar', length: 255 })
-  password: string;
+  @Column({ type: 'varchar', length: 255, unique: true })
+  phoneNumber: string;  
 
   @Column({ type: 'varchar', length: 255 })
-  email: string;
+  password: string;
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   @Expose()
