@@ -6,12 +6,14 @@ import { UpdateUserDto } from '../dto/update-user.dto';
 import { User } from '../model/entity/user.entity';  
 import { HttpException, HttpStatus } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
+import { JwtService } from '@nestjs/jwt';  
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(UserRepository)
     private readonly userRepository: UserRepository,  
+    private readonly jwtService: JwtService, 
   ) {}
 
   async createUser(createUserDto: CreateUserDto): Promise<User | null> {
@@ -22,6 +24,31 @@ export class UserService {
     } catch (error) {
       throw new HttpException('Error creating user', HttpStatus.BAD_REQUEST);  
     }
+  }
+
+  // Sign Up Method
+  async signup(createUserDto: CreateUserDto): Promise<any> {
+    const existingUser = await this.userRepository.getUserByPhoneNumber(createUserDto.phoneNumber); 
+    if (existingUser) {
+      throw new HttpException('User with this phone number already exists', HttpStatus.BAD_REQUEST);
+    }
+
+    // Create a new user
+    const user = await this.createUser(createUserDto);
+    
+    // Check if user is created successfully
+    if (!user) {
+      throw new HttpException('Error creating user', HttpStatus.BAD_REQUEST);
+    }
+
+    // Create JWT token
+    const payload = { phoneNumber: user.phoneNumber, sub: user.id };  // 'sub' refers to the user ID
+    const token = this.jwtService.sign(payload, { expiresIn: '1w' });  // Token expires in 1 week
+
+    return {
+      message: 'User registered successfully',
+      token,
+    };
   }
 
   async getUserById(id: string): Promise<User | null> {
@@ -78,7 +105,11 @@ export class UserService {
         throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);  
       }
 
-      return { message: 'Login successful' };  
+      // Create JWT token after successful login
+      const payload = { phoneNumber: user.phoneNumber, sub: user.id };
+      const token = this.jwtService.sign(payload, { expiresIn: '1w' });
+
+      return { message: 'Login successful', token };  
     } catch (error) {
       throw new HttpException('Error logging in', HttpStatus.INTERNAL_SERVER_ERROR);  
     }
