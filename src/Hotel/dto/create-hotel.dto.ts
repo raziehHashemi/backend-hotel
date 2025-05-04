@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsObject, IsLatitude, IsLongitude } from 'class-validator';
+import { IsString, IsNotEmpty, IsObject, IsLatitude, IsLongitude, IsOptional } from 'class-validator';
 
 export class CreateHotelDto {
   @IsString()
